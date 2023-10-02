@@ -17,21 +17,35 @@
     <label for="numbers" class="col-4 col-form-label">Numbers</label> 
     <div class="col-8">
     <%! String numbers=""; %>
+    <%! double result=0; %>
 	<%
-	 	if(request.getParameter("operator")!=null && !request.getParameter("operator").equals("nothing")){
-	 		numbers += request.getParameter("num1") + Calculator.getOperator(request.getParameter("operator"));
-	 		Calculator.addNumber(request.getParameter("num1"));
-	 		Calculator.addOperator(request.getParameter("operator"));
-		 	out.println( numbers);
-	 	}else if (request.getParameter("operator")!=null && !request.getParameter("operator").equals("nothing") && request.getParameter("num1").isEmpty()){
-	 		numbers += Calculator.getOperator(request.getParameter("operator"));
-		 	out.println( numbers);
-		 	Calculator.addOperator(request.getParameter("operator"));
-	 	}else if (request.getParameter("operator")!=null && request.getParameter("operator").equals("nothing") && !request.getParameter("num1").isEmpty()){
-	 		numbers += request.getParameter("num1");
-		 	out.println( numbers);
-		 	Calculator.addNumber(request.getParameter("num1"));
-	 	}
+	
+		if(request.getParameter("submit")!=null){
+			if(request.getParameter("operator")!=null && !request.getParameter("operator").equals("nothing")){
+		 		numbers += request.getParameter("num1") + Calculator.getOperator(request.getParameter("operator"));
+		 		Calculator.addNumber(request.getParameter("num1"));
+		 		Calculator.addOperator(request.getParameter("operator"));
+			 	out.println( numbers);
+	 		}else if (request.getParameter("operator")!=null && !request.getParameter("operator").equals("nothing") && request.getParameter("num1").isEmpty()){
+		 		numbers += Calculator.getOperator(request.getParameter("operator"));
+			 	out.println( numbers);
+			 	Calculator.addOperator(request.getParameter("operator"));
+	 		}else if (request.getParameter("operator")!=null && request.getParameter("operator").equals("nothing") && !request.getParameter("num1").isEmpty()){
+		 		numbers += request.getParameter("num1");
+			 	out.println( numbers);
+			 	Calculator.addNumber(request.getParameter("num1"));
+	 		}
+		}
+
+		if(request.getParameter("reset")!=null){
+		numbers="";
+		}
+		
+		if(request.getParameter("calculate")!=null){
+			result = Calculator.calculate(String.valueOf(result)); 
+			
+			out.println("El resultado es " + result);
+		}
 	 
 	 %>
     </div>
@@ -55,34 +69,10 @@
   <div class="form-group row">
     <div class="offset-4 col-8">
       <button name="submit" type="submit" class="btn btn-primary">Send</button>
+      <button name="reset" type="submit" class="btn btn-primary">Delete</button>
+      <button name="calculate" type="submit" class="btn btn-primary">Calculate</button>
     </div>
   </div>
-
-  
-  
 </form>
-
-<form action="calculatorCode.jsp" method="get">
-<button name="reset" type="reset" class="btn btn-primary">Delete</button>
-<%
-
-%>
-</form>
-
-
-<form method="get" action="calculatorCode.jsp">
-  <button name="submit" type="submit" class="btn btn-primary">Calculate</button>
-  
-<%! double result=0; %>
-<%
-	if(request.getParameter("num1")!=null && (request.getParameter("operator").equals("Add") || request.getParameter("operator").equals("Subtract"))){
-		result = Calculator.getResult(String.valueOf(result), request.getParameter("num1"), request.getParameter("operator"));
-	}
-
-
-%>
-	  
-</form>
-
 </body>
 </html>

@@ -3,6 +3,7 @@ package cr.ejer3;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ import lombok.Setter;
 
 public class Calculator {
 	
-	private static ArrayList numberList = new ArrayList();
+	private static List<String> numberList = new ArrayList();
 	private double num1;
 	private double num2;
 	private char operador;
@@ -55,6 +56,20 @@ public class Calculator {
 		}
 		
 		return result;
+	}
+	
+	
+	public static double calculate(String first) {
+		double result=0;
+		
+		for (int i=0; i<numberList.size(); i+=2) {
+			result += Calculator.getResult(first, numberList.get(i), numberList.get(i+1));
+		}
+		
+		
+		
+		return result;
+		
 	}
 	
 
