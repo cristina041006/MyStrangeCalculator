@@ -21,7 +21,7 @@
 	<%
 	
 		if(request.getParameter("submit")!=null){
-			if(request.getParameter("operator")!=null && !request.getParameter("operator").equals("nothing")){
+			if(request.getParameter("operator")!=null && !request.getParameter("operator").equals("nothing") && !request.getParameter("num1").isEmpty()){
 		 		numbers += request.getParameter("num1") + Calculator.getOperator(request.getParameter("operator"));
 		 		Calculator.addNumber(request.getParameter("num1"));
 		 		Calculator.addOperator(request.getParameter("operator"));
@@ -42,9 +42,15 @@
 		}
 		
 		if(request.getParameter("calculate")!=null){
-			result = Calculator.calculate(String.valueOf(result)); 
+			result = Calculator.calculate(result);
+			if (!Calculator.showNumber().equals("error")) {
+				out.println(Calculator.showNumber() + " = " + result);
+			}else{
+				out.println(Calculator.showNumber());
+			}
 			
-			out.println("El resultado es " + result);
+			Calculator.deleteString();
+			result =0;
 		}
 	 
 	 %>
@@ -53,7 +59,7 @@
   <div class="form-group row">
     <label for="num1" class="col-4 col-form-label">Number</label> 
     <div class="col-8">
-      <input id="num1" name="num1" placeholder="Write your first number" type="number" class="form-control">
+      <input id="num1" name="num1" placeholder="Write your first number" type="text" class="form-control">
     </div>
   </div>
   <div class="form-group row">

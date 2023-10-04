@@ -21,6 +21,7 @@ public class Calculator {
 	private double num1;
 	private double num2;
 	private char operador;
+	private static StringBuilder numbers = new StringBuilder();
 	
 	
 	public static String getOperator(String operator) throws Exception {
@@ -45,28 +46,59 @@ public class Calculator {
 	public static void addOperator (String operator) throws Exception {
 		numberList.add(Calculator.getOperator(operator));
 	}
+	private static void deleteList() {
+		numberList.clear();
+	}
 	
-	public static double getResult (String num1, String num2, String operador) {			
+	public static String showNumber() {
+	
+		for (int i=0; i<numberList.size(); i++) {
+			numbers.append(numberList.get(i));
+		}
+		Calculator.deleteList();
+		return numbers.toString();
+	}
+	
+	public static void deleteString() {
+		numbers.setLength(0);
+	}
+	
+	public static double getResult (double result, String operador, String num1) {			
 		
-		double result = Double.parseDouble(num1);
 		if (operador.charAt(0)=='+') {
-			result += Double.parseDouble(num2);
+			result += Double.parseDouble(num1);
 		}else if(operador.charAt(0)=='-') {
-			result -= Double.parseDouble(num2);
+			result -= Double.parseDouble(num1);
 		}
 		
 		return result;
 	}
 	
 	
-	public static double calculate(String first) {
-		double result=0;
-		
-		for (int i=0; i<numberList.size(); i+=2) {
-			result += Calculator.getResult(first, numberList.get(i), numberList.get(i+1));
+	public static double calculate(double result) {
+		boolean stop = false;
+		try {
+			
+			for (int i=0; i<=numberList.size()-1 && !stop; i+=2) {
+				if(result==0 && i==0) {
+					result = Double.parseDouble(numberList.get(i));
+				}
+				if(i+2==numberList.size()-1) {
+					result = Calculator.getResult(result, numberList.get(i+1), numberList.get(i+2));
+					stop=true;
+				}else {
+					result = Calculator.getResult(result, numberList.get(i+1), numberList.get(i+2));
+				}
+				
+			}
+			
+			
+		}catch (Exception e) {
+			Calculator.deleteList();
+			numbers.setLength(0);
+			numbers.append("error");
+			
 		}
-		
-		
 		
 		return result;
 		
