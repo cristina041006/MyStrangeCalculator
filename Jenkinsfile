@@ -1,21 +1,23 @@
 #!groovy
-
-agent any
-
-stages {
-   satge('Build'){
-      steps {
-         sh 'mvn clean package'
+pipeline {
+   
+   agent any
+   
+   stages {
+      satge('Build'){
+         steps {
+            sh 'mvn clean package'
+         }
       }
-   }
-   stage('Test') {
-      steps {
-         sh 'mvn test'
+      stage('Test') {
+         steps {
+            sh 'mvn test'
+         }
       }
-   }
-   stage('Deploy') {
-      steps {
-         sh 'mvn install -Dmaven.test.skip=true'
+      stage('Deploy') {
+         steps {
+            sh 'mvn install -Dmaven.test.skip=true'
+         }
       }
    }
 }
